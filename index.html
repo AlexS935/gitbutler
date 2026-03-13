@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SkyMappers — Professional drone mapping for construction, real estate, roofing, and land surveys. High-resolution deliverables, fast turnaround, FAA Part 107 certified.">
+  <title>SkyMappers — Professional Drone Mapping Services</title>
+  <style>
+    :root {
+      --slate: #0f172a;
+      --slate-700: #334155;
+      --slate-500: #64748b;
+      --slate-300: #cbd5e1;
+      --slate-100: #f1f5f9;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-light: #3b82f6;
+      --accent: #facc15;
+      --accent-dark: #eab308;
+      --white: #ffffff;
+      --font: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
+      --max-width: 1140px;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(15,23,42,.08), 0 4px 14px rgba(15,23,42,.06);
+      --shadow-lg: 0 4px 12px rgba(15,23,42,.1), 0 16px 40px rgba(15,23,42,.1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+
+    body {
+      font-family: var(--font);
+      color: var(--slate);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    /* ---------- UTILITIES ---------- */
+    .container { width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+    .section { padding: 80px 0; }
+    .section-label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--slate-500);
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .95rem;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--blue); color: var(--white); }
+    .btn-primary:hover { background: var(--blue-dark); box-shadow: 0 4px 16px rgba(37,99,235,.35); }
+    .btn-accent { background: var(--accent); color: var(--slate); }
+    .btn-accent:hover { background: var(--accent-dark); }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.4); }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.1); }
+
+    /* ---------- FADE-IN ANIMATION ---------- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- NAV ---------- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,23,42,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: none; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--slate-300);
+      transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--white); }
+    .nav-cta { display: none; }
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--slate);
+      padding: 24px 20px;
+      list-style: none;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .mobile-menu.open { display: flex; flex-direction: column; gap: 20px; }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--slate-300);
+    }
+    .mobile-menu a:hover { color: var(--white); }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      background: var(--slate);
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url("https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+      opacity: .3;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(15,23,42,.88) 40%, rgba(37,99,235,.45) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 80px 0 64px;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+      background: rgba(250,204,21,.12);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--white);
+      max-width: 600px;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--slate-300);
+      max-width: 480px;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    /* ---------- SERVICES ---------- */
+    .services-grid {
+      display: grid;
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--white);
+      border: 1px solid var(--slate-100);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .service-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+    .service-icon.blue { background: rgba(37,99,235,.1); color: var(--blue); }
+    .service-icon.accent { background: rgba(250,204,21,.15); color: var(--accent-dark); }
+    .service-icon.slate { background: rgba(15,23,42,.07); color: var(--slate-700); }
+    .service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .service-card p { font-size: .925rem; color: var(--slate-500); line-height: 1.65; }
+    .service-card.teaser {
+      border: 2px dashed var(--slate-300);
+      background: var(--slate-100);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .teaser-label {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--blue);
+      background: rgba(37,99,235,.08);
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+
+    /* ---------- WORKFLOW ---------- */
+    .workflow { background: var(--slate); color: var(--white); }
+    .workflow .section-label { color: var(--accent); }
+    .workflow .section-subtitle { color: var(--slate-300); }
+    .steps { display: grid; gap: 32px; counter-reset: step; }
+    .step {
+      position: relative;
+      padding-left: 64px;
+      counter-increment: step;
+    }
+    .step::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: var(--white);
+      font-size: .95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .step p { font-size: .925rem; color: var(--slate-300); line-height: 1.65; }
+
+    /* ---------- PORTFOLIO ---------- */
+    .portfolio-grid { display: grid; gap: 20px; }
+    .portfolio-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s;
+    }
+    .portfolio-item:hover img { transform: scale(1.05); }
+    .portfolio-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: linear-gradient(transparent, rgba(15,23,42,.8));
+      color: var(--white);
+      font-size: .85rem;
+      font-weight: 600;
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq-list { max-width: 680px; }
+    .faq-item {
+      border-bottom: 1px solid var(--slate-100);
+    }
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      padding: 20px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--slate);
+      text-align: left;
+      line-height: 1.4;
+    }
+    .faq-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .faq-icon {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--slate-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      color: var(--slate-500);
+      margin-left: 16px;
+      transition: transform .3s, background .3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--blue); color: var(--white); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, padding .35s ease;
+    }
+    .faq-item.open .faq-answer { max-height: 200px; }
+    .faq-answer p {
+      padding-bottom: 20px;
+      font-size: .925rem;
+      color: var(--slate-500);
+      line-height: 1.7;
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact {
+      background: linear-gradient(160deg, var(--slate) 50%, var(--blue-dark));
+      color: var(--white);
+    }
+    .contact .section-label { color: var(--accent); }
+    .contact-info {
+      list-style: none;
+      margin: 24px 0 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .contact-info li {
+      font-size: .925rem;
+      color: var(--slate-300);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .contact-info li strong { color: var(--white); min-width: 90px; }
+
+    /* ---------- FOOTER ---------- */
+    .footer {
+      background: var(--slate);
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 24px 0;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--slate-500);
+    }
+
+    /* ---------- MEDIA QUERIES ---------- */
+    @media (min-width: 768px) {
+      .section { padding: 100px 0; }
+      .section-title { font-size: 2.25rem; }
+      .nav-links { display: flex; }
+      .nav-cta { display: inline-flex; }
+      .nav-toggle { display: none; }
+      .mobile-menu { display: none !important; }
+      .hero h1 { font-size: 3rem; }
+      .hero-content { padding: 100px 0 80px; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+      .step { padding-left: 0; padding-top: 64px; }
+      .step::before { top: 0; left: 0; }
+      .portfolio-grid { grid-template-columns: repeat(3, 1fr); }
+      .contact-inner { display: flex; gap: 64px; align-items: flex-start; }
+      .contact-text { flex: 1; }
+    }
+
+    @media (min-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(4, 1fr); }
+      .hero h1 { font-size: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo" aria-label="SkyMappers home">Sky<span>Mappers</span></a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#faq">FAQs</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="mailto:hello@skymappers.com" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:.85rem;">Request a Quote</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <ul id="mobile-menu" class="mobile-menu">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#workflow">Workflow</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#faq">FAQs</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="mailto:hello@skymappers.com" style="color:var(--accent);font-weight:600;">Request a Quote</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">FAA Part 107 Certified</div>
+      <h1>Aerial Maps That <em>Move Projects Forward</em></h1>
+      <p class="hero-sub">High-resolution drone mapping for construction, real estate, roofing, and land surveys — delivered fast and ready to use.</p>
+      <div class="hero-actions">
+        <a href="mailto:hello@skymappers.com" class="btn btn-primary">Request a Mapping Quote</a>
+        <a href="#services" class="btn btn-outline">See Services</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- SERVICES -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">What We Do</span>
+        <h2 class="section-title">Mapping Services</h2>
+        <p class="section-subtitle">From site progress tracking to precise land surveys, we turn drone data into deliverables your team can act on.</p>
+      </div>
+      <div class="services-grid fade-in">
+        <div class="service-card">
+          <div class="service-icon blue" aria-hidden="true">&#9634;</div>
+          <h3>Construction Mapping</h3>
+          <p>Track earthwork volumes, compare as-built vs. design, and generate time-stamped orthomosaics so stakeholders stay aligned throughout the project.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon accent" aria-hidden="true">&#9673;</div>
+          <h3>Realty &amp; Land Surveys</h3>
+          <p>High-resolution aerial photography, boundary overlays, and interactive orthomosaics that help agents and surveyors close deals and verify boundaries.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon slate" aria-hidden="true">&#9650;</div>
+          <h3>Roof &amp; Infrastructure</h3>
+          <p>Detailed imagery for roof condition assessments, solar panel planning, and infrastructure inspection — without ladders or scaffolding.</p>
+        </div>
+        <div class="service-card teaser">
+          <div class="teaser-label">Coming Soon</div>
+          <h3>Agricultural Services</h3>
+          <p>Multispectral crop health analysis, irrigation monitoring, and yield estimation to help growers make smarter decisions from the air.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section id="workflow" class="section workflow">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">How It Works</span>
+        <h2 class="section-title">Three Simple Steps</h2>
+        <p class="section-subtitle">We handle the complexity so you get clear, usable deliverables without the learning curve.</p>
+      </div>
+      <div class="steps fade-in">
+        <div class="step">
+          <h3>Plan the Flight</h3>
+          <p>Tell us about your site and goals. We design an optimized flight plan covering every square foot you need mapped.</p>
+        </div>
+        <div class="step">
+          <h3>Capture &amp; Process</h3>
+          <p>Our Part 107 pilots fly the mission and process raw imagery into geo-referenced maps, 3-D models, or point clouds.</p>
+        </div>
+        <div class="step">
+          <h3>Receive Deliverables</h3>
+          <p>Download ready-to-use exports — orthomosaics, DEMs, contour maps, and annotated reports — typically within 48 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" class="section">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Our Work</span>
+        <h2 class="section-title">Recent Projects</h2>
+        <p class="section-subtitle">A snapshot of the mapping deliverables we produce for clients across industries.</p>
+      </div>
+      <div class="portfolio-grid fade-in">
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=640&q=80" alt="Aerial view of a construction site showing earthwork progress" loading="lazy">
+          <div class="portfolio-caption">Construction Progress — Mixed-Use Development</div>
+        </div>
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=640&q=80" alt="Aerial view of green farmland and property boundaries" loading="lazy">
+          <div class="portfolio-caption">Land Survey — 120-Acre Parcel</div>
+        </div>
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=640&q=80" alt="Overhead view of residential rooftops for inspection" loading="lazy">
+          <div class="portfolio-caption">Roof Inspection — Commercial Complex</div>
+        </div>
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?auto=format&fit=crop&w=640&q=80" alt="High-resolution aerial orthomosaic of a suburban neighborhood" loading="lazy">
+          <div class="portfolio-caption">Orthomosaic — Residential Subdivision</div>
+        </div>
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1506947411487-a56738571f73?auto=format&fit=crop&w=640&q=80" alt="Aerial drone photo of a winding river and terrain" loading="lazy">
+          <div class="portfolio-caption">Topographic Survey — River Corridor</div>
+        </div>
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=640&q=80" alt="Drone view of solar panel array on commercial roof" loading="lazy">
+          <div class="portfolio-caption">Solar Planning — Warehouse Rooftop</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section" style="background:var(--slate-100);">
+    <div class="container">
+      <div class="fade-in">
+        <span class="section-label">Common Questions</span>
+        <h2 class="section-title">FAQs</h2>
+        <p class="section-subtitle">Quick answers to the things clients ask most.</p>
+      </div>
+      <div class="faq-list fade-in">
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            Are your pilots FAA certified?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>Yes. Every SkyMappers pilot holds a current FAA Part 107 Remote Pilot Certificate and carries liability insurance. We follow all federal, state, and local regulations for commercial drone operations.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            How fast can I get my deliverables?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>Standard turnaround is 24–48 hours after the flight. For time-sensitive projects, we offer same-day rush processing — just let us know when you request a quote.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            What file formats do you deliver?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>We deliver GeoTIFF orthomosaics, DXF/DWG contour maps, LAS/LAZ point clouds, KMZ overlays, and annotated PDF reports. Custom formats or coordinate systems are available on request.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            When will agricultural drone services be available?
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            <p>We're actively testing multispectral crop-health and irrigation-monitoring workflows and plan to launch ag services later this year. Drop us an email at hello@skymappers.com to join the early-access list.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact">
+    <div class="container">
+      <div class="fade-in contact-inner">
+        <div class="contact-text">
+          <span class="section-label">Get In Touch</span>
+          <h2 class="section-title" style="color:var(--white);">Ready to Map Your Next Project?</h2>
+          <p style="color:var(--slate-300);max-width:480px;margin-bottom:8px;">Tell us about your site, timeline, and deliverables — we'll send a tailored quote within one business day.</p>
+          <ul class="contact-info">
+            <li><strong>Service Area</strong> Nationwide (continental U.S.)</li>
+            <li><strong>Hours</strong> Mon – Fri, 7 AM – 6 PM</li>
+            <li><strong>Email</strong> <a href="mailto:hello@skymappers.com" style="color:var(--accent);">hello@skymappers.com</a></li>
+          </ul>
+          <a href="mailto:hello@skymappers.com" class="btn btn-accent">Request a Mapping Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 SkyMappers. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Mobile menu toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('mobile-menu');
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      menu.classList.toggle('open');
+    });
+    // Close mobile menu on link click
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+      });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+        });
+        // Toggle current
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
