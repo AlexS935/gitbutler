@@ -8,6 +8,7 @@
 	"type": "module",
 	"packageManager": "pnpm@10.20.0",
 	"scripts": {
+		"postinstall": "node scripts/setup-git-hooks.mjs",
 		"dev:ui": "pnpm --filter @gitbutler/ui storybook",
 		"dev:web": "turbo watch --filter @gitbutler/web dev",
 		"dev:lite": "turbo watch --filter @gitbutler/lite dev",
